@@ -1,0 +1,77 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "City Weather Reports",
+	"description": "A collection of weather reports by City",
+	"type": "object",
+	"properties": {
+		"cities": {
+			"type": "array",
+			"items": [
+				{
+					"type": "object",
+					"properties": {
+						"cityId": {
+						"type": "number",
+							"minimum": 0
+						},
+						"cityName": {
+							"type": "string"
+						},
+						"currentConditions": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"title": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"temperature": {
+							"type": "number",
+							"minLength": 1,
+							"pattern": "^-?\\d+$"
+						},
+						"windSpeed": {
+							"type": "string",
+							"pattern": "^[0-9]+km\/h.*$"
+						},
+						"windDirection": {
+							"type": "string",
+							"minLength": 2,
+							"maxLength": 2,
+							"pattern": "^[A-Z]{1-2}$",
+							"enum": [
+								"N",
+								"NE",
+								"E",
+								"SE",
+								"S",
+								"SW",
+								"W"
+							]
+						},
+						"windChillFactor": {
+							"type": "number",
+							"minLength": 1,
+							"pattern": "^-?\\d+$"
+						}
+					},
+					"required": [
+						"cityId",
+						"cityName",
+						"currentConditions",
+						"temperature",
+						"windSpeed",
+						"windDirection",
+						"windChillFactor"
+					]
+				}
+			]
+		}
+	},
+	"required": [
+		"cities"
+	]
+}

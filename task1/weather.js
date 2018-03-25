@@ -27,6 +27,7 @@ var autoLoad = function(funct, timeout, interval) {
 	})();
 };
 
+// Method that reads from static json file and renders the display table for injection into the page
 var getWeatherData = function () {
 	$.ajax( {
 		url:'weather.json',

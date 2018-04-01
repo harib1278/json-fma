@@ -25,6 +25,19 @@
 			"windDirection": "NE",
 			"windChillFactor": 2,
 			"available": true
+		},
+		{
+			"cityId": 2,
+			"cityName": "Grimsby",
+			"currentConditions": [
+				{"condition": "Wet"},
+				{"condition": "Overcast"}
+			],
+			"temperature": 12,
+			"windSpeed": "14km/h",
+			"windDirection": "NW",
+			"windChillFactor": 7,
+			"available": true
 		}
 	]
 }

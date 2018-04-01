@@ -39,6 +39,7 @@ label:after {
     position:absolute;
     pointer-events:none;
 }
+
 label:before {
     content:'';
     right:6px; top:0px;
@@ -48,6 +49,90 @@ label:before {
     pointer-events:none;
     display:block;
 }
+
 a{
 	font-size: 2em;
+}
+
+table {
+	border: 4px solid #555555;
+	text-align: center;
+	border-collapse: collapse;
+	margin-top:20px;
+	margin-bottom:20px;
+	font-size: 1.5em;
+
+}
+table td, table th {
+	border: 1px solid #555555;
+	padding: 5px 10px;
+}
+table tbody td {
+	font-size: 12px;
+	font-weight: bold;
+}
+table td:nth-child(even) {
+	background: #398AA4;
+	color: #FFFFFF;
+}
+table thead {
+	background: #398AA4;
+	border-bottom: 10px solid #398AA4;
+}
+table thead th {
+	font-size: 15px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: left;
+	border-left: 2px solid #398AA4;
+}
+table thead th:first-child {
+	border-left: none;
+}
+
+table tfoot td {
+	font-size: 13px;
+}
+table tfoot .links {
+	text-align: right;
+}
+table tfoot .links a{
+	display: inline-block;
+	background: #FFFFFF;
+	color: #398AA4;
+	padding: 2px 8px;
+	border-radius: 5px;
+}
+
+header{
+	text-align: center;
+}
+
+nav ul {
+	padding:10px 10px 10px 10px;
+}
+
+select {
+	font-size: 1em;
+}
+
+option{
+	font-size: 1.5em;
+}
+
+#site-page{
+	display: block;
+	width:45%;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #eaeaea;
+	padding:20px;
+}
+
+#results{
+	font-size: 1.5em;
+}
+
+.capitalise{
+	text-transform: capitalize;
 }

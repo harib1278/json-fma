@@ -1,12 +1,16 @@
- const apiKey = 'b656a56dbb20aecd3ffc68f77c7b55a5';
+const apiKey = 'b656a56dbb20aecd3ffc68f77c7b55a5';
+const units  = 'Metric';
+const iUrl   = 'http://openweathermap.org/img/w/'
+const png    = '.png';
 
- $(document).ready(function() { 	
+$(document).ready(function() { 	
 	init();
 });
 
- var init = function () {
- 	initStyles();
- 	selectCityList();
+// Initalise the functionality we want to load when the page loads
+var init = function () {
+	initStyles();
+	selectCityList();
 };
 
 // Make use of some bootstrap classes for asthetic purposes
@@ -31,16 +35,58 @@ var loadWeatherData = function() {
 			dataType: 'JSON', // Returns JSON
 			data: {
 				q: city + ', uk',
+				units: units,
 				appid: apiKey
 			},
 			success: function(response){
-				console.log(response);
+				if (response.base.length > 0) {
+					var conditions = response.weather;
+					var condition  = '';
+					var iconurl    = '';
+
+					$.each(conditions, function(index) {
+						condition += '<ul>'
+						condition += '<li>'+conditions[index].description+'</li>';
+						condition += '</ul>'	
+						iconurl = iUrl + conditions[0].icon + png;
+					});
+					
+					// Table head
+					var table = '<table id="weather-table">';
+					table += '<tr>';
+					table += '<th></th>';
+					table += '<th>City</th>';
+					table += '<th>Date</th>';
+					table += '<th>Weather Conditions</th>';
+					table += '<th>Temperature (&#8451;)</th>';
+					table += '<th>Wind Speed</th>';
+					table += '<th>Wind Direction</th>';					
+					table += '</tr>';
+
+					// Data
+					table += '<tr>';
+					table += '<td><img id="wicon" src="' + iconurl + '" alt="Weather icon"></td>';
+					table += '<td>' + response.name + '</td>';
+					table += '<td>' + convertUnixToUk(response.dt) + '</td>';
+					table += '<td class="capitalise">' + condition + '</td>';
+					table += '<td>Temp: ' + response.main.temp + '<br>Min Temp: ' + response.main.temp_min + '<br>Max Temp: ' + response.main.temp_max + '</td>';
+					table += '<td>' + convertToMph(response.wind.speed) + ' mph</td>';
+					table += '<td>' + convertFromDegrees(response.wind.deg) + '</td>';
+					table += '</tr>';
+
+					table += '</table>'
+
+					$('#results').html(table);
+				}
 			},	
 			error: function() {
-				$('#cities').html('<p>An error has occurred</p>');
+				$('#cities').html('<p><div class="alert alert-danger">' +
+					'<strong>Error!</strong> An error has occurred, no city by that name in the UK.' +
+				'</div>');
+				$('#results').empty();
 			}
 		});
-	});	
+	});
 }
 
 // Method to dynamically load the appropriate country lists from static files
@@ -81,7 +127,43 @@ var loadCountryList = function(country){
 			loadWeatherData();
 		},	
 		error: function() {
-			$('#cities').html('<p>An error has occurred</p>');
+			$('#cities').html('<p><div class="alert alert-danger">' +
+				'<strong>Error!</strong> An error has occurred, cannot load country list.' +
+			'</div>');
+			$('#results').empty();
 		}
 	});
+};
+
+// Method used to convert a unix timestamp into a UK date format
+var convertUnixToUk = function(unixDate){
+	// Create a new date object from the timestamp
+	var temp   = new Date(unixDate * 1000);
+		
+	// Grab the bits we need
+	var date   = temp.getDate();
+	var month  = temp.getMonth();
+	var year   = temp.getFullYear();
+
+	// Piece the final string together
+	return date + '-' + month + '-' + year;
+};
+
+// Method used to convert Metres per second into Miles per hour using a simple x * 2.23694 formula
+var convertToMph = function(value){
+	var mph = value * 2.23694;
+
+	// return it to 4 decimal places
+	return mph.toFixed(4);
+};
+
+
+// Helper method to convert the degree of angle to the closes appropriate compass string value
+// Formula used: degree / 11.25 / 2
+var convertFromDegrees = function(degree) {
+	var compass = ['North', 'North North East', 'North East', 'East North East', 'East', 'East South East', 
+	'South East', 'South South Eeast', 'South', 'South South West', 'South West', 'West South West', 'West', 
+	'West North West', 'North West', 'North North West', 'North']; // Last north is the fallback
+
+	return compass[Math.round(degree / 11.25 / 2)];
 };

@@ -1,5 +1,4 @@
  $(document).ready(function() {
-
 	init();
 });
 
@@ -34,7 +33,6 @@ var getWeatherData = function () {
 		type: 'GET',
 		dataType: 'json', // Returns JSON
 		success: function(response){
-			console.log(response);
 			var sTxt = '';
 			$.each(response.cities, function(index) {
 
